@@ -14,13 +14,21 @@
 #
 # And be sure to use new-style password hashing:
 #   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
+#development:
+#  adapter: mysql
+#  encoding: utf8
+#  database: beatc2_beatcreators
+#  username: beatc2_beatcreat
+#  password: 135adgzc
+#  host: localhost
+
 development:
   adapter: mysql
   encoding: utf8
   database: beatc2_beatcreators
-  username: beatc2_beatcreat
-  password: 135adgzc
-  host: localhost
+  username: beatc2
+  password: Th31ncept10n
+  host: 216.97.228.194
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
