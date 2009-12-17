@@ -1,0 +1,15 @@
+<h2>Questions tagged <%= params[:id] %></h2>
+  <div id="total">
+    <%if @size == 0 || @size == nil%>
+      <div align="left" style="width:600px;">No questions were found for that tag try a different one. </div>
+    <%else%>
+     <div align="right">Total Questions:<%= @size %>
+      </div>
+    <%end%>
+  </div>
+<%if  params[:id] != nil %>
+  <div id="searchquestions">
+   <%= render :partial=>'allquestions', :locals=>{:questions=>@questions} %>
+ </div>
+<%= will_paginate @questions %>
+<% end %>

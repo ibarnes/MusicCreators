@@ -1,0 +1,35 @@
+<h1>Leaderboard</h1>
+<div id="help-sidebar"><div id="help"><br><strong>Point System</strong><br><br>
+    
+   <%= image_tag 'bullet.gif' %>Answer correctly = 40 pts<br>
+   <%= image_tag 'bullet.gif' %>Answer questions = 30 pts<br>
+     <%= image_tag 'bullet.gif' %>Ask questions = 20 pts<br>
+     
+
+     <%= image_tag 'bullet.gif' %>Receiving votes = 5 pts<br>
+     
+<br><br></div></div>
+<table border="0" id="leader_table" style="border-collapse:collapse;" ><tr><td width="60"><h5>Rank</h5></td><td width="100"><h5>Member</h5></td><td width="80"><h5>Questions</h5></td>
+    <td width="80"><h5>Answers</h5></td><td width="80"><h5>Correct</h5></td><td width="70"><h5>Votes</h5></td>
+    <td width="80"><h5>Total</h5></td><td width="100"><h5>Joined</h5></td></tr>
+  <%@leaders.each_with_index  do |leader, index|%>
+  <%
+
+    @user = User.find(leader.userid)
+  %>
+  <tr bgcolor="<%= cycle("#F0F0F0", "#FFFFFF")%>">
+    <td class="rank"><%if params[:page] == nil || params[:page] == '1'%><%=ordinalize index + 1%><%else%><%=ordinalize index + 26%><%end%></td>
+    <td> <div id="links"><%#link_to @user.login, showuser_path(:user => @user.login) %></div>
+    <div id="img"><%=link_to  image_tag(show_avatar,:width=>'50px',:height=>'50px',:title=> @user.login), showuser_path(:user => @user.login)  %></div>
+   </td>
+    <td class="score"><%=Score.questionscore(@user.id)%></td>
+    <td class="score"><%=Score.answerscore(@user.id)%></td>
+    <td class="score"><%=Score.correctscore(@user.id)%></td>
+    <td class="score"><%=Score.votescore(@user.id)%></td>
+    <td class="score"><%=leader.score.to_s%></td>
+    <td class="score"><%=distance_of_time_in_words_to_now(@user.created_at)%></td>
+    </tr>
+<%end%>
+</table><br><br>
+<%= will_paginate @leaders %>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>

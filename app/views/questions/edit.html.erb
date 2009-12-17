@@ -1,0 +1,42 @@
+<h1>Editing Question</h1>
+<%= javascript_include_tag 'tiny_mce/tiny_mce' %>
+<%= javascript_include_tag 'tinyconfig' %>
+<% form_for(@question) do |f| %>
+  <%= f.error_messages %>
+
+    <div class="fieldgrp">
+
+      <label for="topic_id"><abbr title="This field is required.">*</abbr>Select a topic:</label>
+      <div class="field">
+        <%= collection_select(:question, :topic_id, Topic.all, :id, :title) %>
+      </div>
+    </div>
+
+    <div class="fieldgrp">
+      <label for="title"><abbr title="This field is required.">*</abbr>Title:</label>
+      <div class="field">
+        <%= f.text_field :headline, :style =>'width:400px;' %>
+      </div>
+    </div>
+
+ <div class="fieldgrp">
+      <label for="tags"><abbr title="This field is required.">*</abbr>Tags:</label>
+      <div class="field">
+        <%= f.text_field :tag_list %>
+      </div>
+    </div>
+  <div class="fieldgrp">
+
+    <label for="about"><%=@type%>:</label>
+    <div class="field">
+      <%= f.text_area :body, :style =>'height:150px;width:400px;'%>
+    </div>
+  </div>
+  <p align="left">
+    <%= f.submit "Update Questions" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', @question %>
+
+ 

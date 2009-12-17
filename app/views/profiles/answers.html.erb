@@ -1,0 +1,31 @@
+  <%= javascript_include_tag 'table' %>
+
+<!---My ANSWERS CODE --->
+<%= render :partial => "tabs", :locals => {  :pageid => 2 } %>
+<%=render :partial=>'home/allquestions', :locals=>{:questions=>@answers}%>
+
+  <% if @answers.size > 0 %>
+<div id="help-sidebar"><div id="help"><br><strong>Quick Tips</strong><br><br>
+   <%= image_tag 'bullet.gif' %>This list shows all of the questions that you have posted answers to.<br>
+  <%= image_tag 'bullet.gif' %>The questions that have a star like this <%=image_tag 'closed_star.png', :height =>'10px', :width=>'10px'%> are the questions that you answered correctly.<br>
+<br><br></div></div>
+  <%
+    for question in @answers
+        if question != nil
+  %>
+           <div  class="post"> <p>
+            <span class="headline"><%= image_tag show_avatar, :height =>'20px', :width=>'20px'   %>  <%= link_to 'Re: ' + find_parent(question.parentid).headline, find_parent(question.parentid)%><%if question.correct_flag == 1 %><%=image_tag 'closed_star.png', :height =>'10px', :width=>'10px'%><%end%></span><br>
+              <span class="details"> Posted an Answer <%= distance_of_time_in_words_to_now(question.created_at, include_seconds = false) %> ago</span> <%= link_to 'View', question %> | <%= link_to 'Edit', edit_question_path(find_parent(question.parentid)) %> | <%= link_to 'Delete', question, :confirm => 'Are you sure you want to delete this answer?', :method => :delete %>
+                   </p>
+          </div>
+       
+   <%
+        end
+      end
+   else
+   %>You have not answered any questions yet. Click All Questions and see if you can help someone out.<%= @answers.size%><br><br><br>
+   <%
+   end
+   %>
+<%=will_paginate(@answers)%>
+           <% if @answers.size < 5 %><br><br><br><br><br><br><br><br><br><br><br><br><br><%end%>

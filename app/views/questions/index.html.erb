@@ -1,0 +1,49 @@
+<h1>Questions</h1>
+<br><h3>
+  <form action="search" method="post" >
+    Search for a question:  <input type="text" id="question" name="question" >&nbsp;&nbsp;
+    <input type="hidden" name="type" value="Question" id="type" />
+    <input type="submit" class="button"  value="Search" />
+</form></h3> 
+
+<div align="right">
+  
+
+</div><br>
+<% for question in @questions %>
+  <%
+
+  @user = User.find(question.user_id)
+  @avatar  = Avatar.find_by_user_id(@user.id)
+  if question.parentid == 0
+  %>
+    <table class="search_table" cellpadding="0" cellspacing="0">
+      <tr bgcolor="#FFFFFF" onmouseover="this.bgColor='#EBEBEB'" onmouseout="this.bgColor='#ffffff'" height="20px;">
+        <td width="150px">
+          <%= image_tag show_avatar, :height =>'80px', :width=>'80px',:class=>'profile-img'  %>
+        </td>
+        <td width="600px">
+          <div id="userInfo">
+            <strong style="font-size:18px;color:green;"><%=link_to question.headline, question %></strong><br><br><%= question.body[0..60]%>
+            <br> <strong>Post by:</strong> <%=link_to @user.login, showuser_path(:user => @user.login) %> <%= distance_of_time_in_words_to_now(question.created_at) %> ago &nbsp;&nbsp;<strong>Topic:</strong> <%= Topic.find_by_id(question.topic_id).title %> &nbsp;&nbsp;<strong>Answers:</strong> <%= Question.find_all_by_parentid(question.id).size %><div class="userActions">
+            </div>
+          </div>
+        </td>
+        <td> <%= link_to image_tag("view_question.png", :border=>0), question%></td>
+      </tr>
+    </table><br>
+    <%if @size == 0%>
+      No questions were found try a different word or phrase.
+    <% end %>
+
+    <%# link_to 'Edit', edit_question_path(question) %>
+    <%# link_to 'Destroy', question, :confirm => 'Are you sure?', :method => :delete %>
+
+  <% end end %>
+
+<%= will_paginate @questions %>
+
+
+<br />
+
+

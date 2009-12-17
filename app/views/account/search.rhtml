@@ -1,0 +1,22 @@
+<h1 class="section_header">Members Index</h1>
+<div class="directory">
+<% @alphabet.each do |letter| %>
+<% if letter == @character %>
+<span class="current"><%= letter %></span>
+<% else %>
+<%= link_to letter, search_path(:char => letter), :class => "letter" %>
+<% end %>
+<% end %>
+</div>
+<hr/>
+<% for user in @users %>
+<div class="result">
+<div class="userImage"><%= image_tag show_avatar, :height =>'80px', :width=>'80px',:class=>'profile-img'   %></div>
+<div class="userInfo">
+<strong>Name: </strong><%= user.login %><br />
+</div>
+<div class="userActions">
+<%= link_to "View", showuser_path(:user => user.login) %>
+</div>
+</div>
+<% end %>

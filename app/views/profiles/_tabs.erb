@@ -1,0 +1,34 @@
+<%
+#menu_builder(@page_id)
+@actives = Array['inactive','inactive','inactive','inactive','inactive','inactive']
+@actives[pageid] = 'active'
+
+%>
+
+<ul class="tabnav">
+  <!--<li class="<%=@actives[0]%>"><%=link_to 'My Feed', myfeeds_path%></li>-->
+  <li class="<%=@actives[1]%>"><%=link_to 'My Questions', myquestions_path%></li>
+  <li class="<%=@actives[2]%>"><%=link_to 'My Answers', myanswers_path%></li>
+  <li class="<%=@actives[3]%>"><%=link_to 'Edit Profile',editprofile_path %></li>
+  <li class="<%=@actives[4]%>"><%=link_to 'Change Password', mypassword_path%></li>
+   <li class="<%=@actives[5]%>"><%=link_to 'Notifications', notifications_path %></li>
+  <li class="<%=@actives[6]%>"><%= link_to 'View Profile', showprofile_url(current_user.login) %></li>
+ 
+
+</ul>
+
+
+<script type="text/javascript">
+  function show_details() {
+    Effect.SwitchOff('info');
+    $('hide_details_link').style.display = 'inline';
+    $('show_details_link').style.display = 'none';
+  }
+
+  function hide_details() {
+    Effect.SwitchOff('info');
+    $('hide_details_link').style.display = 'none';
+    $('show_details_link').style.display = 'inline';
+  }
+</script>
+<%# image_tag 'images' %>

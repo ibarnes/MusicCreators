@@ -1,0 +1,110 @@
+<div id="profile">
+  <div id="avatar">
+    <%=@user.login  %>
+
+    <h3><i>knows</i>:
+      <%if(@user.mostExperienced)%>
+        <%=Topic.find(@user.mostExperienced).title %>
+      <%end%>,
+      <%if(@user.veryExperienced)%>
+        <%=Topic.find(@user.veryExperienced).title %>
+      <%end%>,
+      <%if(@user.kindOfExperienced)%>
+        and  <%=Topic.find(@user.kindOfExperienced).title %>
+    <%end%></h3>
+    <br>
+      <div style="width:600px">
+    <div style="float:left;clear:right;"><%= image_tag show_avatar, :height =>'80px', :width=>'80px',:class=>'profile-img'  %></div>
+
+       </div>
+  </div>
+  <div id="details">
+
+    <h3>Details</h3>
+    <table >
+      <tr><td>
+</td></tr>
+      <tr><td width="200px">Wants to learn</td><td > <span class="bold"> <%if(@user.learnAbout)%>
+              <%=Topic.find(@user.learnAbout).title%>
+            <%end%></span></td></tr>
+      <tr><td>Most experienced in</td><td><span class="bold"> <%if(@user.mostExperienced)%>
+              <%=Topic.find(@user.mostExperienced).title %>
+            <%end%></span></td></tr>
+      <tr><td>Very experienced in</td><td> <span class="bold"><%if(@user.veryExperienced)%>
+              <%=Topic.find(@user.veryExperienced).title %>
+            <%end%></span></td></tr>
+      <tr><td>Kind of experienced in</td><td><span class="bold"> <%if(@user.kindOfExperienced)%>
+              <%=Topic.find(@user.kindOfExperienced).title %>
+            <%end%></span></td></tr>
+    </table>
+    <br>
+  </div>
+
+  <div id="description">
+    <h3>About Me</h3>
+    <%=@pro.about %>
+    <br><br>
+  </div>
+
+  <div id="contactme">
+    <h3>Contact Information</h3>
+
+    <% if @pro.contact1 != nil %> Contact me at <span class="bold"><%=@pro.contact1 %></span><br><%end%>
+    <% if @pro.contact2 != nil %> Contact me at <span class="bold"><%=@pro.contact2 %></span><br><%end%>
+    <% if @pro.contact3 != nil %> Contact me at <span class="bold"><%=@pro.contact3 %></span><br><%end%>
+    <br>
+  </div>
+  <br>
+  <div id="activity">
+    <h3>Recent Activity</h3>
+    <table >
+
+      <tr >
+        <th>Title</th>
+        <th>Topic</th>
+        <th>Type</th>
+      </tr>
+      <% for question in @questions
+        if question != nil%>
+
+          <tr>
+            <td>
+             <%= link_to question.headline, question%>
+            </td>
+
+            <td><%if(question.topic_id)%>
+                <%=Topic.find(question.topic_id).title %>
+              <%end%></td>
+            <td>
+              <%if question.parentid == 0%>
+                Question
+              <%else%>
+                Answer
+              <%end%>
+            </td>
+          </tr>
+
+
+        <%else%>
+          There hasn't been any recent activity.
+        <%
+        end
+      end
+    %> </table><br><br><br>
+  </div>
+
+</div>
+<div id="vertical">
+  <div id="ads"><script type="text/javascript"><!--
+google_ad_client = "pub-5334247008422553";
+/* 120x600, created 5/31/09 */
+google_ad_slot = "8378903526";
+google_ad_width = 120;
+google_ad_height = 600;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script></div>
+  <br><br><br>
+</div>

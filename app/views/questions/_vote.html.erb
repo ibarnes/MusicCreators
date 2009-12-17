@@ -1,0 +1,36 @@
+<div class="vote">
+        <div class="left">
+          <div class="votememebutton" id="">
+
+            <% @sql = "select * from ratings where user_id='"+current_user.id.to_s+"' and questionid='"+ thequestion.id.to_s + "'" %>
+            <% @question_user =  Rating.find_by_sql(@sql)
+            @questionrating = Rating.find_all_by_questionid(thequestion.id)
+          %>
+
+            <%
+            #if user has not voted already then allow them to vote
+            if @question_user.size == 0
+            %>
+
+              <%
+              #if answer is not by this user and user is logged in then let them vote
+              if thequestion.user_id != current_user.id and logged_in? %>
+                <form action="<%=vote_path(thequestion.id)%>" method="post" id="votequestion<%=thequestion.id%>" name="votequestion<%=thequestion.id%>"  >
+                  <a class="count1" id="anchor<%= thequestion.id%>" href="javascript:void(0);" title="Click here if you like this question." onclick="document.votequestion<%=thequestion.id%>.submit();">
+                    <span class="c"><span id="sp_vote<%= thequestion.id%>"><%=@questionrating.size%></span></span><br>
+                    <span class="t"><%=makeplural(@questionrating.size,'vote')%></span></a>
+                </form>
+                <%
+                #if user is not logged_in then don't let them vote
+              else
+              %>  <a class="count" >
+                  <span class="c"><span id="sp_vote<%= thequestion.id%>"><%=@questionrating.size%></span></span><br>
+                  <span class="t"><%=makeplural(@questionrating.size,'vote')%></span></a>
+              <%end%>
+              <% else %>  <a class="count"  >
+                <span class="c"><span id="sp_vote<%= thequestion.id%>"><%=@questionrating.size%></span></span><br>
+                <span class="t"><%=makeplural(@questionrating.size,'vote')%></span></a>
+            <%end%>
+          </div>
+        </div>
+      </div>

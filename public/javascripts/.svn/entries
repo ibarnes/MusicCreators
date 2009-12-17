@@ -1,0 +1,58 @@
+9
+
+dir
+0
+http://isaac-4a0eb2ad2:8081/svn/Beatcreators/Beatcreators/public/javascripts
+http://isaac-4a0eb2ad2:8081/svn/Beatcreators
+add
+
+
+
+
+
+
+
+svn:special svn:externals svn:needs-lock
+
+prototype.js
+file
+
+
+
+add
+
+effects.js
+file
+
+
+
+add
+
+dragdrop.js
+file
+
+
+
+add
+
+btn.js
+file
+
+
+
+add
+
+application.js
+file
+
+
+
+add
+
+controls.js
+file
+
+
+
+add
+

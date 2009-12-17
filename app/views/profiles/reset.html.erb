@@ -1,0 +1,25 @@
+ <!---CHANGE PASSWORD CODE --->
+<%= render :partial => "tabs", :locals => {  :pageid => 4 } %>
+    <%= error_messages_for (:user) %>
+    <% form_for( :user,  :url=> {:controller => 'account', :action => 'change_password'}, :html => { :method => :put }) do |f| %>
+      <div class="fieldgrp">
+        <label for="password"><abbr title="This field is required.">*</abbr>Current Password:</label>
+        <div class="field">
+          <%= password_field_tag "old_password" %><br><span class="formhelp">6 or more characters</span>
+        </div>
+      </div>
+      <div class="fieldgrp">
+        <label for="password"><abbr title="This field is required.">*</abbr>New Password:</label>
+        <div class="field">
+          <%= password_field_tag "password" %><br><span class="formhelp">6 or more characters</span>
+        </div>
+      </div>
+      <div class="fieldgrp">
+        <label for="password_confirmation"><abbr title="This field is required.">*</abbr>Confirm New Password:</label>
+        <div class="field">
+          <%= password_field_tag "password_confirmation"%>
+        </div>
+      </div>
+      <%= submit_tag "Change Password" %>
+    <% end %>
+

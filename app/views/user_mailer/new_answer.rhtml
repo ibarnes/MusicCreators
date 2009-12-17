@@ -1,0 +1,16 @@
+Hello <%= @user.login %>,
+
+A new answer has been added by <%= @user.login %> to your question!
+
+<%=@question.body%>
+
+Click the link below to see the new answer:
+http://answers.beatcreators.com<%=question_path(Question.find(@question.parentid))%>
+
+
+This email was sent by your request. Sign into BeatCreators to change your notifications if you wish to no longer receive these emails.
+
+Thank you.
+
+Ike Barnes
+BeatCreators

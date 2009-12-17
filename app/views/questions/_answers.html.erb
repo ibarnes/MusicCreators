@@ -1,0 +1,57 @@
+<%= javascript_include_tag 'vote' %>
+<table width="610" border="0" bgcolor="<%=bgcolor%>" id="answers_list">
+  <tr><td colspan="3"></td></tr>
+  <% @i = 0 # used to increment the forms for answers
+  for theanswer in allanswers %>
+    <%
+    @rating = Rating.find_all_by_questionid(theanswer.id)
+    @user = User.find(theanswer.user_id)
+    @correct = theanswer
+    
+  %>
+    <tr>
+      <td width="40" id="question_login"> <div id="question_image">
+         <%=link_to @user.login, showuser_path(:user => @user.login) %>
+        </div>
+      </td>
+      <td width="462" rowspan="3" > </td>
+      <td rowspan="2" >&nbsp;</td>
+    </tr>
+    <tr>
+      <td rowspan="3" valign="top"><%= image_tag show_avatar, :height =>'80px', :width=>'80px',:class=>'profile-img'   %></td>
+    </tr>
+    <tr>
+      <td width="78" rowspan="3" valign="top" >
+        <%= render :partial=>'vote', :locals=>{:thequestion=>theanswer} %>
+        <div>
+
+          <%if theanswer.correct_flag != 1 && @asker %>
+            <form action="<%=correctanswer_path(theanswer.id)%>" method="post" id="theanswer<%=@i%>" name="theanswer<%=@i%>"   >
+              <img  src= "/images/open_star.gif" title="Click here if you like this answer the most." onclick="document.theanswer<%=@i%>.submit();" alt="Open Star">
+               </form>
+          <%end%>
+          <%if theanswer.correct_flag == 1 && @asker %>
+          <form action="<%=correctanswer_path(theanswer.id)%>" method="post" id="theanswer<%=@totalanswers + 1%>" name="theanswer<%=@totalanswers.size + 1%>"   >
+       
+           <img  src= "/images/closed_star.gif" title="This is the correct answer to this question." onclick="document.theanswer<%=@totalanswers.size + 1%>.submit();" alt="Closed Star">
+          </form>
+          <% end %>
+       <%@i += 1%>
+        </div>
+        <br>
+      </td>
+    </tr>
+    <tr><%@answerbody = simple_format(theanswer.body )%>
+      <td height="102" valign="top"><%=@answerbody %></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td valign="baseline" ><a id="displayText<%= theanswer.id%>" href="javascript:toggle(<%= theanswer.id%>);">Add Comment</a></td>
+      <td height="21" valign="bottom">Posted <%=h distance_of_time_in_words_to_now(theanswer.created_at, include_seconds = false) %> ago <% if theanswer.user_id == current_user.id %>
+          | <%= link_to 'Edit', editanswer_path(theanswer) %> | <%= link_to 'Delete', theanswer, :confirm => 'Are you sure you want to delete this question?', :method => :delete %>
+        <%end%></td>
+    </tr>
+    <%= render :partial => "comments", :locals => {  :theanswer => theanswer } %>
+      <%end -%>
+
+</table>

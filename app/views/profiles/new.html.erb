@@ -1,0 +1,38 @@
+<br><h1>Lets get started by creating your profile.</h1>
+
+<% form_for(@profile) do |f| %>
+  <%= f.error_messages %>
+  <div class="fieldgrp">
+
+  </div>
+  <div class="fieldgrp">
+   <label for="about">My Description:</label> 
+    <div class="field">
+      <%= f.text_area :about, :class => 'textarea'%>
+    </div>
+  </div>
+  <div class="fieldgrp">
+    <label for="about">Contact Me:</label>
+     <div class="field">
+    <%= f.text_field :contact1, :class => 'longfield' %>
+   </div>
+  </div>
+ <div class="fieldgrp">
+    <label for="about">Contact Me:</label>
+     <div class="field">
+    <%= f.text_field :contact2, :class => 'longfield' %>
+   </div>
+  </div>
+  <div class="fieldgrp">
+    <label for="about">Contact Me:</label>
+     <div class="field">
+    <%= f.text_field :contact3, :class => 'longfield' %>
+     <p><br>
+    <%= f.submit "Create Your Profile"%>
+  </p>
+   </div>
+  </div>
+ 
+ 
+<% end %>
+

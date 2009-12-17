@@ -1,0 +1,18 @@
+<div class="errorExplanation" id="errorExplanation"><%=@message%></div>
+
+<% form_tag url_for(:action => "reset") do %>
+    <div class="fieldgrp">
+      <label for="password"><abbr title="This field is required.">*</abbr>New Password:</label>
+      <div class="field">
+        <%= password_field_tag "password" %><br><span class="formhelp">6 or more characters</span>
+      </div>
+    </div>
+    <div class="fieldgrp">
+      <label for="password_confirmation"><abbr title="This field is required.">*</abbr>Confirm New Password:</label>
+      <div class="field">
+        <%= password_field_tag "password_confirmation"%>
+        <%= hidden_field_tag 'code', params[:code]%>
+      </div>
+    </div>
+    <%= submit_tag "Reset Password" %>
+  <% end %>

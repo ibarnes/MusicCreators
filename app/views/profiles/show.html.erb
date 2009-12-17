@@ -1,0 +1,23 @@
+<p>
+  <b>About:</b>
+  <%=h @profile.about%>
+</p>
+
+<p>
+  <b>Contact1:</b>
+  <%=h @profile.contact1 %>
+</p>
+
+<p>
+  <b>Contact2:</b>
+  <%=h @profile.contact2 %>
+</p>
+
+<p>
+  <b>Contact3:</b>
+  <%=h @profile.contact3 %>
+</p>
+
+
+<%= link_to 'Edit', edit_profile_path(@profile) %> |
+<%= link_to 'Back', profiles_path %>

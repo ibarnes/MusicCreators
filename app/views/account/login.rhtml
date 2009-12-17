@@ -1,0 +1,33 @@
+<center>
+  <%if @notice != nil%>
+  <div id="info" class="notice"><div id="hide_details_link" style="display:inline;">
+  <%=@notice%>
+</div></div><%end%>
+  <div id="login">
+    <div id="loginform">
+      <% if @incorrect == true %>
+      <div class="error">Username or password is incorrect!</div>
+      <%end%> 
+      <% form_tag do -%>
+      <p><h1 align="left">Login</h1>
+        <div align="left"><label for="login">Username</label></div>
+        <%= text_field_tag 'login' %>
+        </p>
+        <p><div align="left"><label for="password">Password</label></div>
+
+        <%= password_field_tag 'password' %></p>
+      </div>
+      <!-- Uncomment this if you want this functionality-->
+      <div align="left" style="padding:0 30px 0 50px;">   <p><label for="remember_me">Remember me:</label>
+        <%= check_box_tag 'remember_me' %></p>
+        <br>
+      <%= submit_tag 'Log in' %><br><br><%=link_to 'Forgot Password?', forgot_password_path%></div>
+
+    <% end -%> <div id="signup">
+      <p style="text-align: center; font-size: 16px; font-weight: 700;">Don't have an account yet!
+      </p><p align="center"><%= link_to image_tag("join.png", :border=>0), :controller => 'account', :action => 'signup' %></p>
+    </div> </div>
+  
+
+</center>
+

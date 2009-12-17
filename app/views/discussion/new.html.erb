@@ -1,0 +1,28 @@
+<br><br>
+<h1>Ask a question</h1>
+<% form_for :discussion, @discussion, :url => { :action => "create" } do |f| -%>
+  <%= f.error_messages %>
+  <div class="fieldgrp">
+    <label for="topic_id"><abbr title="This field is required.">*</abbr>I want to learn more about:</label>
+    <div class="field">
+      <%= collection_select(:question, :topic_id, Topic.all, :id, :title) %>
+
+    </div>
+  </div>
+  <div class="fieldgrp">
+    <label for="title"><abbr title="This field is required.">*</abbr>Title:</label>
+    <div class="field">
+      <%= f.text_field :headline, :class => 'longfield' %>
+    </div>
+  </div>
+   <div class="fieldgrp">
+   <label for="about">Question:</label>
+    <div class="field">
+      <%= f.text_area :body, :class => 'longfield'%>
+    </div>
+  </div>
+  
+ 
+
+  <p><%= f.submit "Add", :style => 'text-align:center;' %></p>
+<% end %>

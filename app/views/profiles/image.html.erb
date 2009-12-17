@@ -1,0 +1,17 @@
+<%= render :partial => "tabs", :locals => {  :pageid => 3 } %>
+
+<!---EDIT PROFILE IMAGE CODE --->
+
+<table><tr><td width="120px"> <%= image_tag show_avatar, :height =>'110px', :width=>'110px' %></td><td> Select an image:
+<% form_for(:avatar, :url => addavatar_path,:html => { :multipart => true}) do |f| %>
+    <div class="fieldgrp">
+      
+      <div class="field">
+        <%= f.file_field :uploaded_data, :class => 'longfield' %>
+      </div>
+   
+    </div>
+     <%= submit_tag 'Update' %>
+  <%end%></td></table>
+ 
+ 

@@ -1,0 +1,250 @@
+<script language="javascript">
+  function toggle(id) {
+    var ele = document.getElementById("toggleText" + id);
+    var text = document.getElementById("displayText" + id);
+    if(ele.style.display == "block") {
+      ele.style.display = "none";
+      text.innerHTML = "Add Comment";
+    }
+    else {
+      ele.style.display = "block";
+      text.innerHTML = "";
+    }
+  }
+
+  function addClick(){
+
+
+    history.go();
+  }
+
+  function disableCheck(click){
+    if (click > 1)
+    {
+      disable
+
+    }
+
+  }
+</script>
+
+<% title ": " + @question.headline %>  
+<div id="help-sidebar">
+  <div id="help"><br><strong>Quick Tips</strong><br><br>
+    <%= image_tag 'bullet.gif' %>Answers with the highest votes will show first in the list.<br>
+    <%= image_tag 'bullet.gif' %>You must be a member to vote on answers.
+    <br><br></div><br>
+  <div align="center"><script type="text/javascript"><!--
+    google_ad_client = "pub-5334247008422553";
+    /* 120x240, created 7/19/09 */
+    google_ad_slot = "0574282203";
+    google_ad_width = 120;
+    google_ad_height = 240;
+    //-->
+    </script>
+    <script type="text/javascript"
+            src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+    </script></div>
+</div>
+<h1>Question</h1>
+<br><%@body = simple_format(@question.body)%>
+<table  width="50px" border="0" cellpadding="10" cellspacing="10" id="question_thread">
+  <tr>
+    <td  id="question_login"><%=link_to @user.login, showuser_path(:user => @user.login) %></td>
+    <td colspan="2"><h3><%=h @question.headline %></h3></td>
+  </tr>
+  <tr>
+    <td rowspan="2" valign="top"><%= image_tag show_avatar, :height =>'80px', :width=>'80px',:class=>'profile-img'  %></td>
+    <td id="question_details"><h1><%=@body %></h1></td>
+    <td valign="top">
+       <div class="vote">
+          <div class="left">
+            <div class="votememebutton" id="">
+
+              <% @sql = "select * from ratings where user_id='"+current_user.id.to_s+"' and questionid='"+ @question.id.to_s + "'" %>
+              <% @question_user =  Rating.find_by_sql(@sql)
+               @questionrating = Rating.find_all_by_questionid(@question.id)
+            %>
+
+              <%
+              #if user has not voted already then allow them to vote
+              if @question_user.size == 0
+              %>
+
+                <%
+                #if answer is not by this user and user is logged in then let them vote
+                if @question.user_id != current_user.id and logged_in? %>
+              <form action="<%=vote_path(@question.id)%>" method="post"   >
+                    <a class="count1" id="anchor<%= @question.id%>" href="javascript:void(0);" title="Click here if you like this answer.">
+                      <span class="c"><span id="sp_vote<%= @question.id%>"><%=@questionrating.size%></span></span><br>
+                      <span class="t">votes</span></a>
+                    <input id="vote" name="vote" type="submit"  value="Vote"  >
+              </form>
+                  <%
+                  #if user is not logged_in then don't let them vote
+                else
+                %>  <a class="count" >
+                    <span class="c"><span id="sp_vote<%= @question.id%>"><%=@questionrating.size%></span></span><br>
+                    <span class="t">votes</span></a>
+                <%end%>
+                <% else %>  <a class="count"  >
+                  <span class="c"><span id="sp_vote<%= @question.id%>"><%=@questionrating.size%></span></span><br>
+                  <span class="t">votes</span></a>
+              <%end%>
+            </div>
+          </div>
+        </div>
+      
+
+    </td>
+  </tr>
+  <tr>
+    <td >Posted <%=h distance_of_time_in_words_to_now(@question.created_at, include_seconds = false) %> ago | Tags: <%=@question.tag_list%></td>
+    <td > <div id="question_buttons">
+
+
+        <% if @question.user_id == current_user.id %>
+          <%= link_to 'Edit', edit_question_path(@question) %> |
+
+        <%end%>
+
+      </div></td>
+  </tr>
+</table>
+
+<br><br>
+<table width="600" border="0">
+  <tr><td colspan="3"><div align="left"><h1>Answers (<%=@answers.size%>)</h1></div></td></tr>
+  <% for answer in @answers %>
+    <%
+    @rating = Rating.find_all_by_questionid(answer.id)
+    @user = User.find(answer.user_id)
+  %>
+    <tr>
+      <td width="96"> <div id="question_image">
+          <h1><%=link_to @user.login, showuser_path(:user => @user.login) %></h1>
+        </div></td>
+      <td width="412" rowspan="3" >&nbsp;</td>
+      <td rowspan="2" >&nbsp;</td>
+    </tr>
+    <tr>
+      <td rowspan="3" valign="top"><%= image_tag show_avatar, :height =>'80px', :width=>'80px',:class=>'profile-img'   %></td>
+    </tr>
+    <tr>
+      <td width="78" rowspan="3" valign="top">
+        <div class="vote">
+          <div class="left">
+            <div class="votememebutton" id="">
+
+              <% @sql = "select * from ratings where user_id='"+current_user.id.to_s+"' and questionid='"+ answer.id.to_s + "'" %>
+              <% @answer_user =  Rating.find_by_sql(@sql)
+            %>
+
+              <%
+              #if user has not voted already then allow them to vote
+              if @answer_user.size == 0
+              %>
+
+                <%
+                #if answer is not by this user and user is logged in then let them vote
+                if answer.user_id != current_user.id and logged_in? %>
+              <form action="<%=vote_path(answer.id)%>" method="post"   >
+                    <a class="count1" id="anchor<%= answer.id%>" href="javascript:void(0);" title="Click here if you like this answer.">
+                      <span class="c"><span id="sp_vote<%= answer.id%>"><%=@rating.size%></span></span><br>
+                      <span class="t">votes</span></a>
+                    <input id="vote" name="vote" type="submit"  value="Vote"  >
+              </form>
+                  <%
+                  #if user is not logged_in then don't let them vote
+                else
+                %>  <a class="count" >
+                    <span class="c"><span id="sp_vote<%= answer.id%>"><%=@rating.size%></span></span><br>
+                    <span class="t">votes</span></a>
+                <%end%>
+                <% else %>  <a class="count"  >
+                  <span class="c"><span id="sp_vote<%= answer.id%>"><%=@rating.size%></span></span><br>
+                  <span class="t">votes</span></a>
+              <%end%>
+            </div>
+          </div>
+        </div>
+        <% if answer.user_id == current_user.id %>
+          <%= link_to 'Edit', edit_question_path(answer) %>
+        <%end%><br>
+      </td>
+    </tr>
+    <tr><%@answerbody = simple_format(answer.body )%>
+      <td height="102" valign="top"><%=@answerbody %></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td valign="baseline" ><a id="displayText<%= answer.id%>" href="javascript:toggle(<%= answer.id%>);">Add Comment</a></td>
+      <td height="21" valign="bottom">Posted <%=h distance_of_time_in_words_to_now(answer.created_at, include_seconds = false) %> ago</td>
+    </tr>
+    <%if Comment.find_all_by_parent_id(answer.id) != nil
+      @comments = Comment.find_all_by_parent_id(answer.id)
+      if @comments.size >= 1
+      %> <tr><td colspan="3"><strong>Text Comments (<%=@comments.size%>)</strong></td></tr>
+      <%
+      end
+      for comment in @comments
+
+      %>
+        <tr class="comment"><td colspan="3"> <div><%=image_tag 'head.jpg' %><%=link_to User.find_by_id(comment.user_id).login, showuser_path(:user =>User.find_by_id(comment.user_id).login)%>  (<%=h distance_of_time_in_words_to_now(comment.created_at, include_seconds = false) %> ago)<br><br><%=comment.body%> <div align="right"><%= link_to 'Delete', deletecomment_path(comment.id), :confirm => 'Are you sure you want to delete this comment?' %></div> </div></td></tr>
+      <%
+      end
+    end-%>
+    <tr ><td  colspan="3"><div id="toggleText<%= answer.id%>" style="display: none">
+          <% form_for :comment, @comment, :url => { :controller =>'questions',:action => "comment" } do |f| -%>
+            <%= f.error_messages %>
+
+            <%= f.hidden_field :parent_id, :value=> answer.id %>
+
+            <div class="fieldgrp">
+
+              <div class="field">
+                <label for="about">Your Comment:</label>
+                <%= f.text_area :body, :style=>'height:30px;width:590px;' %>
+              </div>
+            </div>
+
+
+            <p><%= f.submit "Add Comment", :style => 'text-align:center;' %></p>
+          <%end -%>
+        </div></td></tr>
+    <tr ><td height="20" colspan="3" style="border-bottom-width: 1px;border-bottom-style: dotted;border-bottom-color: #999999;"><br></td></tr>
+      <%end -%>
+
+</table>
+
+
+
+<% if @answers.size == 0%>
+  <h3>No Answers yet be the first to reply!</h3>
+
+<%end%>
+<br><br>
+<h1>Reply</h1>
+<table width="640">
+  <tr>
+    <td>
+
+      <% form_for :reply, @reply, :url => { :controller =>'questions',:action => "reply" } do |f| -%>
+        <%= f.error_messages %>
+
+        <%= f.hidden_field :headline, :value=> '1' %>
+
+        <div class="fieldgrp">
+
+          <div class="field">
+            <label for="about">Your Answer:</label>
+            <%= f.text_area :body, :class => 'reply' %>
+          </div>
+        </div>
+        <%= hidden_field_tag 'reply[parentid]', @question.id, :id=>'reply_parent'  %>
+
+        <p><%= f.submit "Post Your Answer", :style => 'text-align:center;' %></p>
+      <% end %>
+    </td>
+  </tr>
+</table>

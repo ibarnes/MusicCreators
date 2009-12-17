@@ -1,0 +1,92 @@
+<%= javascript_include_tag 'vote' %>
+<%if @notice != nil%><div id="info" class="notice"> <%=@notice%><div id="hide_details_link" style="display:inline;">
+  <%= link_to_function image_tag('close.gif'), 'hide_details()', :style=>'text-align:right;width:600px;' %>
+</div></div><%end%>
+<% title Topic.find_by_id(@question.topic_id).title + ": " + @question.headline%>
+<% content_for :description, @question.body %>
+
+<div id="help-sidebar">
+  <div id="help"><br><strong>Quick Tips</strong><br><br>
+    <%if @correctanswers.size > 0%><%= image_tag 'bullet.gif' %>Click the star to select the correct answers if you created the question.<br><%end%>
+    <%= image_tag 'bullet.gif' %>Answers with the highest votes will show first in the list.<br>
+    <%= image_tag 'bullet.gif' %>You must be a member to vote on answers.
+    <br><br></div><br>
+  <div align="center"><script type="text/javascript"><!--
+    google_ad_client = "pub-5334247008422553";
+    /* 120x240, created 7/19/09 */
+    google_ad_slot = "0574282203";
+    google_ad_width = 120;
+    google_ad_height = 240;
+    //-->
+    </script>
+    <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+    </script></div>
+</div>
+<h2>Question</h2>
+<br><%@body = simple_format(@question.body)%>
+<table  width="50px" border="0" cellpadding="10" cellspacing="10" id="question_thread">
+  <tr>
+    <td  id="question_login"><%=link_to @user.login, showuser_path(:user => @user.login) %></td>
+    <td colspan="2"><h3><%=h @question.headline %></h3></td>
+  </tr>
+  <tr>
+    <td rowspan="2" valign="top"><%= image_tag show_avatar, :height =>'80px', :width=>'80px',:class=>'profile-img'  %><a id="displayText<%= @question.id%>" href="javascript:toggle(<%= @question.id%>);">Add Comment</a></td>
+    <td id="question_details"><%=@body %></td>
+    <td valign="top">
+    <%= render :partial=>'vote', :locals=>{:thequestion=>@question} %>
+          </div>
+        </div>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td >Posted <%=h distance_of_time_in_words_to_now(@question.created_at, include_seconds = false) %> ago in <%=Topic.find_by_id(@question.topic_id).title%> <%if @question.tag_list.size > 0%> <div id="tags"><span><%=@question.tag_list%></span></div><%end%></td>
+    <td > <div id="question_buttons">
+        <% if @question.user_id == current_user.id %>
+          <%= link_to 'Edit', edit_question_path(@question) %>
+
+        <%end%>
+
+      </div></td>
+  </tr><%= render :partial => "comments", :locals => { :theanswer => @question } %>
+</table>
+<br><br>
+<div id="allanswers">
+<div align="left" id="answer_count"><h2>Answers (<%=@totalanswers%>)</h2></div>
+<%if @correctanswers.size > 0%>
+  <%= render :partial => "answers", :locals => { :bgcolor => "#E2FCE2", :allanswers => @correctanswers } %>
+<%end%>
+<!-- all answers -->
+<br><br>
+
+<%= render :partial => "answers", :locals => { :bgcolor => "#FFFFFF", :allanswers => @answers } %>
+
+<% if @answers.size == 0%>
+  <h3>No answers yet, be the first to reply!</h3>
+
+<%end%></div>
+<br><br>
+<h2>Add your answer</h2>
+<table width="640" >
+  <tr>
+    <td>
+
+      <% form_for :reply, @reply, :url => { :controller =>'questions',:action => 'reply'}, :html => {:id => 'reply'} do |f| -%>
+        <%= f.error_messages %>
+
+        <%= f.hidden_field :headline, :value=> '1' %>
+
+        <div class="fieldgrp">
+
+          <div class="field">
+            <label for="about">Your Answer:</label>
+            <%= f.text_area :body, :class => 'reply' %>
+          </div>
+        </div>
+        <%= hidden_field_tag 'reply[parentid]', @question.id, :id=>'reply_parent'  %>
+
+        <p><%= f.submit "Post Your Answer", :style => 'text-align:center;' %></p>
+      <% end %>
+    </td>
+  </tr>
+</table>

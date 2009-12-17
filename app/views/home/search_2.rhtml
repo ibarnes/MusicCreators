@@ -1,0 +1,113 @@
+<h1>Search</h1>
+<%= menu_builder(params[:type]) %>
+
+<%if params[:type] != 'Skill' && params[:type] != 'Question' %>
+
+  
+    <form>
+      <div class="directory">
+     <h3>   <% @alphabet.each do |letter| %>
+          <% if letter == @character %>
+            <span class="current"><%= letter %></span>
+          <% else %>
+            <%= link_to letter, search_path(:char => letter), :class => "letter" %>
+          <% end %>
+        <% end %>  </h3>
+      </div>
+    </form>
+
+
+  <div id="total">
+    <%if @size == 0%>
+      <div > No users were found try a different letter.</div> <%else%><div align="right">Total Users:<%= @users.length %> </div>
+    <% end %>
+  </div>
+  <% for user in @users %>
+    <%@user = user%>
+
+    <table class="search_table">
+      <tr><td width="150px"><div class="userImage"><%= image_tag show_avatar, :height =>'80px', :width=>'80px',:class=>'profile-img'   %></div></td>
+        <td width="600px">
+          <div id="userInfo"><strong style="font-size:16px;color:green;"> <%=link_to user.login, showuser_path(:user => user.login) %></strong> <br>
+            I am most experienced in <strong><%= get_skill(user.mostExperienced) %></strong>, very experienced in <strong><%= get_skill(user.veryExperienced) %></strong>, and I am kind of experienced in <strong><%= get_skill(user.kindOfExperienced) %></strong>
+            <br /> <div class="userActions">
+
+            </div>
+          </div>
+        </td>
+        <td> <%= link_to image_tag("view_profile.png", :border=>0), showuser_path(:user => user.login) %>
+        </td>
+      </tr>
+    </table><br>
+  <% end %>
+<% end %>
+
+
+<% if params[:type] == 'Skill'  %>
+
+  <h3>
+    <form action="search" method="post" >
+      Select A Skill: <select id="skill" name="skill"><%= options_from_collection_for_select(Topic.all, :id, :title)  %> </select>&nbsp;&nbsp;
+      <input type="hidden" name="type" value="Skill" id="type" />
+      <input type="submit" class="button"  value="Submit" />
+    </form>
+  </h3>
+  <div align="right" id="total">Total Users:<%= @users.length %> </div>
+  <% for user in @users %>
+    <%@user = user%>
+
+    <table   class="search_table">
+      <tr><td width="150px"><div class="userImage"><%= image_tag show_avatar, :height =>'80px', :width=>'80px',:class=>'profile-img'   %></div></td>
+        <td width="600px">
+          <div id="userInfo"><strong style="font-size:16px;color:green;"> <%=link_to user.login, showuser_path(:user => user.login) %></strong><br>
+            I am most experienced in <strong><%= get_skill(user.mostExperienced) %></strong>, very experienced in <strong><%= get_skill(user.veryExperienced) %></strong>, and I am kind of experienced in <strong><%= get_skill(user.kindOfExperienced) %></strong>
+            <br /> <div class="userActions">
+
+            </div>
+          </div>
+        </td><td> <%= link_to image_tag("view_profile.png", :border=>0), showuser_path(:user => user.login) %></td>
+      </tr>
+    </table><br>
+    <%if @size == 0%>
+      No users were found with that skill try a different skill.
+    <% end %>
+  <% end %>
+<% end %>
+
+<% if params[:type] == 'Question'   %>
+
+      
+        <form action="search" method="post" >
+          <span style="font-size:20px;"> Search For A Question:</span> <input type="text" id="question" name="question" value="<%=params[:question]%>" >&nbsp;&nbsp;
+          <input type="hidden" name="type" value="Question" id="type" />
+          <input type="submit" class="button"  value="Search" />
+        </form>
+      
+
+      <% if params[:question] != nil   %>
+          <div id="total">
+            <%if @size == 0%>
+              <div align="left">No questions were found try a different word or phrase.</div>
+            <%else%>
+              <div align="right">Total Questions:<%= @questions.length %>
+              </div>
+            <%end%>
+          </div>
+
+          <% for question in @questions %>
+            <%@user = User.find(question.user_id)%>
+            <table class="search_table">
+              <tr>
+                <td width="150px"><div class="userImage"><%= image_tag show_avatar, :height =>'80px', :width=>'80px',:class=>'profile-img'  %></div></td>
+                <td width="600px">
+                  <div id="userInfo"><h4><%=link_to @user.login, showuser_path(:user => @user.login) %></h4><br> asked: <strong style="font-size:16px;color:green;"> <%= question.headline %></strong><br><%= question.body[0..60]%>
+                    <br />Posted <%= distance_of_time_in_words_to_now(question.created_at, include_seconds = false) %> ago <div class="userActions">
+                    </div>
+                  </div>
+                </td><td> <%= link_to image_tag("view_question.png", :border=>0), question_path(question.id) %></td>
+              </tr>
+            </table><br>
+          <% end %>
+
+      <% end %>
+<% end %>

@@ -1,0 +1,21 @@
+<br><br>
+<h1>Answer for:  <%= Question.find(params[:id]).headline%></h1>
+<% form_for :question, @question, :url => { :action => "reply" }, :style=>'width:400px;' do |f| -%>
+  <%= f.error_messages %>
+ 
+  <div class="fieldgrp">
+    <label for="title"><abbr title="This field is required.">*</abbr>Title:</label>
+    <div class="field">
+      <%= f.text_field :headline, :class => 'longfield' %>
+    </div>
+  </div>
+   <div class="fieldgrp">
+   <label for="about">Answer:</label>
+    <div class="field">
+      <%= f.text_area :body, :class => 'longfield', :style =>'height:150px;'%>
+    </div>
+  </div>
+<%= hidden_field_tag 'question[parentid]', params[:id], :id=>'question_parent'  %>
+
+  <p><%= f.submit "Add", :style => 'text-align:center;' %></p>
+<% end %>

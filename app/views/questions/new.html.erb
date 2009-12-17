@@ -1,0 +1,53 @@
+<script language="JavaScript">
+function openWin2() {
+    win2 = window.open("../questionsample.html", "Window2","width=350,height=600,scrollbars=yes");
+}
+</script>
+
+
+<div id="help-sidebar">
+  <div id="help"><br><strong>Quick Tips</strong><br><br>
+  <%= image_tag 'bullet.gif' %>Please select a topic area for your question.<br>
+  <%= image_tag 'bullet.gif' %>Use the details box to describe your question.
+   <br><br></div></div><br><br>
+<%
+   if logged_in?
+    redirect_to(:action => 'signup') unless logged_in? || User.count > 0
+   end
+%>
+<h1>Ask A Question</h1>
+<table width="640px"><tr><td><% form_for :question, @question, :url => { :action => "create" } do |f| -%>
+  <%= f.error_messages %>
+  <div class="fieldgrp">
+    <label for="topic_id"><abbr title="This field is required.">*</abbr>Select a topic:</label>
+    <div class="field">
+      <%= collection_select(:question, :topic_id, @topics, :id, :title) %>
+    </div>
+  </div>
+  <div class="fieldgrp">
+    <label for="title"><abbr title="This field is required.">*</abbr>Question:</label>
+    <div class="field"><a href="javascript:openWin2()" onMouseOver="self.status='Examples of questions'; return true;">See examples</a>
+       <%= f.text_field :headline, :style => 'width:400px;' %>
+      <div id="related"></div>
+      <%# text_field_with_auto_complete 'question', 'headline',{}, :skip_style => false  %>
+      
+    </div>
+  </div>
+  <div class="fieldgrp">
+    <label for="about">Details(optional):</label>
+    <div class="field">
+      <%= f.text_area :body, :class => 'textarea'%>
+    </div>
+  </div>
+<div class="fieldgrp">
+    <label for="about">Tags:</label>
+    <div class="field">
+      <%= f.text_field :tag_list %><br>
+      (Please use commas to seperate the tags)
+      </div>
+  </div>
+     
+  <%= hidden_field_tag 'question[user_id]', current_user.id, :id=>'question_body'  %>
+
+  <%= f.submit "Ask Your Question", :style => 'text-align:center;' %>
+<% end %></td></tr></table><br><br><br>

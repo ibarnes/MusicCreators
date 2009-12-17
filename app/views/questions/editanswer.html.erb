@@ -1,0 +1,23 @@
+<h1>Editing
+Your reply to: "<%=@headline%>"
+</h1>
+<%= javascript_include_tag 'tiny_mce/tiny_mce' %>
+<%= javascript_include_tag 'tinyconfig' %>
+<% form_for(@question) do |f| %>
+  <%= f.error_messages %>
+  
+  <div class="fieldgrp">
+
+    <label for="about"><%=@type%>:</label>
+    <div class="field">
+      <%= f.text_area :body, :style =>'height:150px;width:400px;'%>
+    </div>
+  </div>
+  <p align="left">
+    <%= f.submit "Update Answer" %>
+  </p>
+<% end %>
+
+
+<%= link_to 'Back', @top %>
+

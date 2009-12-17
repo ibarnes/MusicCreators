@@ -1,0 +1,23 @@
+9
+
+dir
+0
+http://isaac-4a0eb2ad2:8081/svn/Beatcreators/Beatcreators/public/stylesheets
+http://isaac-4a0eb2ad2:8081/svn/Beatcreators
+add
+
+
+
+
+
+
+
+svn:special svn:externals svn:needs-lock
+
+styles.css
+file
+
+
+
+add
+

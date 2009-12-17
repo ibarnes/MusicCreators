@@ -1,0 +1,2 @@
+module RatingcontrollerHelper
+end

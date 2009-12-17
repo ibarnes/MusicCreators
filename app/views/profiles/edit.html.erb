@@ -1,0 +1,97 @@
+<%if flash[:notice]%><div id="info" class="notice"><div id="hide_details_link" style="display:inline;">
+  <%= link_to_function image_tag('close.gif'), 'hide_details()',
+:style=>'text-align:right;width:600px;' %> <%=flash.now[:notice1] = 'Profile was successfully updated.'%>
+</div></div><%end%>
+<%= render :partial => "tabs", :locals => {  :pageid => 3 } %>
+  <%= error_messages_for :user %>
+  <%= error_messages_for :profile %>
+  <table><tr><td width="200px"> <%= image_tag show_avatar, :height =>'110px', :width=>'110px' %></td><td> Select a profile image:
+  <% form_for(:avatar, :url => addavatar_path,:html => { :multipart => true}) do |f| %>
+      <div class="fieldgrp">
+        
+        <div class="field">
+          <%= f.file_field :uploaded_data %>
+        </div>
+     
+      </div>
+       <%= submit_tag 'Update Image' %>
+  <%end%>
+	</td>
+</table>
+
+
+  <% form_tag(editprofile_path, :id => params[:id],:method => 'post') do |f|%>
+    <p align="left"><%# link_to image_tag(@user.avatar.public_filename(:thumb)), @user.avatar.public_filename %>
+
+      <br></p>
+    <div class="fieldgrp">
+      <label for="email"><abbr title="This field is required.">*</abbr>Email Address: </label>
+      <div class="field">
+        <%= text_field :user, :email, :name=> 'current[email]', :id=>'current_email' %>&nbsp;<%= image_tag  'icon_lock_16x18.gif', :alt=>'Secure',:style=>'vertical-align:bottom',:title=>'We keep your email address secure!'%>
+      </div>
+    </div>
+    <div class="fieldgrp">
+      <label for="learnAbout"><abbr title="This field is required.">*</abbr>I want to learn more about: </label>
+      <div class="field">
+        <%= select_tag 'learnAbout',options_from_collection_for_select(Topic.all,'id','title',@user.learnAbout.to_i), :name=> 'current[learnAbout]', :id=>'current_learnAbout'%>
+
+      </div>
+    </div>
+    <div class="fieldgrp">
+      <label for="mostExperienced"><abbr title="This field is required.">*</abbr>Most Experienced: </label>
+      <div class="field">
+        <%= select_tag 'mostExperienced',options_from_collection_for_select(Topic.all,'id','title',@user.mostExperienced.to_i), :name=> 'current[mostExperienced]', :id=>'current_mostExperienced'
+      %>
+      </div>
+    </div>
+    <div class="fieldgrp">
+      <label for="veryExperienced"><abbr title="This field is required.">*</abbr> Very Experienced: </label>
+      <div class="field">
+        <%= select_tag 'veryExperienced', options_from_collection_for_select(Topic.all,'id','title',@user.veryExperienced.to_i), :name=> 'current[veryExperienced]', :id=>'current_veryExperienced'
+      %>
+      </div>
+    </div>
+    <div class="fieldgrp">
+      <label for="kindOfExperienced"><abbr title="This field is required.">*</abbr>Kind Of Experienced: </label>
+      <div class="field">
+        <%= select_tag 'kindOfExperienced',options_from_collection_for_select(Topic.all,'id','title',@user.kindOfExperienced.to_i), :name=> 'current[kindOfExperienced]', :id=>'current_kindOfExperienced'
+      %>
+      </div>
+    </div>
+    <div class="fieldgrp">
+      <label for="about "><abbr title="This field is required.">*</abbr>About: </label>
+      <div class="field">
+        <%= text_area :profile, :about, :class=>'textarea' %>
+      </div>
+    </div>
+    <!--<div class="fieldgrp">
+      <label for="contact1">How to contact you?: </label>
+      <div class="field">
+        <%= text_field :profile, :contact1 %>(Facebook, Twitter, Myspace)
+      </div>
+    </div>
+    <div class="fieldgrp">
+      <label for="contact2">How else to contact you?: </label>
+      <div class="field">
+        <%= text_field :profile, :contact2 %>(Facebook, Twitter, Myspace)
+      </div>
+    </div>
+    <div class="fieldgrp">
+      <label for="contact3">How else to contact you?: </label>
+      <div class="field">
+        <%= text_field :profile, :contact3 %>(Facebook, Twitter, Myspace)
+      </div>
+    </div>
+-->
+    <p>
+      <%= submit_tag 'Update', :class=>'button' %>
+    </p>
+  <%  end %>
+
+
+
+
+
+
+
+ 

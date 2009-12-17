@@ -1,0 +1,33 @@
+  <%= javascript_include_tag 'table' %>
+
+<!---My Notifications CODE --->
+<%= render :partial => "tabs", :locals => {  :pageid => 5 } %>
+BeatCreators notifies you whenever actions are taken on BeatCreators that involve you.
+<br>
+Click the checkbox to change the settings for a specific action.
+<br>
+All notifications will be email to <strong><%=current_user.email%></strong>:
+
+<div>
+  
+  <% form_tag(notifications_path, :id => params[:id],:method => 'post') do |f|%>
+   <br> <br> <% @notification.each do |notification| -%>
+ 
+ <div class="fieldgrp">
+      <label for="added"><%= notification.title-%> </label>
+      <div class="field">
+       <%= check_box_tag "person[notification_ids][]",
+    notification.id,
+    user_wants_notification?(notification) -%>&nbsp;
+      </div>
+    </div>
+  
+  <%end%>
+
+  <br>
+ 
+   <%= submit_tag 'Update' %>
+  <%end%>
+
+
+</div>

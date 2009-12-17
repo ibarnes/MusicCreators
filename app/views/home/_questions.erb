@@ -1,0 +1,15 @@
+
+  <% for question in questions %>
+    <%@user = User.find(question.user_id)%>
+    <table class="search_table">
+      <tr>
+        <td width="150px"><div class="userImage"><%= image_tag show_avatar, :height =>'80px', :width=>'80px',:class=>'profile-img'  %></div></td>
+        <td width="600px">
+          <div id="userInfo"><h4><%=link_to @user.login, showuser_path(:user => @user.login) %></h4><br> asked: <strong style="font-size:16px;color:green;"> <%= question.headline %></strong><br><%= question.body[0..60]%>
+            <br />Posted <%= distance_of_time_in_words_to_now(question.created_at, include_seconds = false) %> ago <div class="userActions">
+            </div>
+          </div>
+        </td><td> <%= link_to image_tag("view_question.png", :border=>0), question_path(question.id) %></td>
+      </tr>
+    </table><br>
+  <% end %>

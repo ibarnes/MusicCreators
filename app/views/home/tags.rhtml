@@ -1,0 +1,27 @@
+<%#
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+%>
+<h1>Tags</h1><br><br>
+
+<table border='0' width="100%">
+	<%
+	@i = 1
+	tag_cloud Question.tag_counts.sort { |x, y| x.name <=> y.name }, %w(cloud4) do |tag, cloud| 
+	%>
+     <% if @i == 1 %>
+     <tr>
+     <%end%>
+     <td width="100px;" id="tags">
+    <span> <%= link_to tag.name, { :action => 'tag', :id => tag.name }, :class => cloud %> x <%=tag.count%></span></td>
+    <%if @i == 6 %>
+    	</tr>
+    <% 
+    	@i = 0 
+      end
+    %>
+  <% 
+  @i += 1
+  end 
+  %>
+</table>

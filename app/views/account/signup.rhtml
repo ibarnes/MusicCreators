@@ -1,0 +1,35 @@
+<br>
+<h1>To join Beatcreators, sign up below… it’s free!</h1>
+
+<% form_for :user do |f| -%>
+  
+  <div class="fieldgrp">
+    <label for="login"><abbr title="This field is required.">*</abbr>UserName</label>
+    <div class="field">
+      <%= f.text_field :login, :class => 'longfield' %>
+      Please no spaces, periods or dashes.
+    </div>
+  </div>
+  <div class="fieldgrp">
+    <label for="email"><abbr title="This field is required.">*</abbr>Email</label>
+    <div class="field">
+      <%= f.text_field :email, :class => 'longfield' %>
+    </div>
+  </div>
+  <div class="fieldgrp">
+    <label for="password"><abbr title="This field is required.">*</abbr>Password</label>
+    <div class="field">
+      <%= f.password_field :password, :class => 'longfield' %><br><span class="formhelp">6 or more characters</span>
+    </div>
+  </div>
+  <div class="fieldgrp">
+    <label for="password_confirmation"><abbr title="This field is required.">*</abbr>Confirm Password</label>
+    <div class="field">
+      <%= f.password_field :password_confirmation, :class => 'longfield'%>
+    </div>
+  </div>
+  
+
+  <%= error_messages_for :user %>
+  <p><%= submit_tag 'Sign up' %></p>
+<% end -%>

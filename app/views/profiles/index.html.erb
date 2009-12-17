@@ -1,0 +1,83 @@
+<% title @user.login + " on BeatCreators.com"%>
+<% content_for :description, @pro.about || "" %>
+<table  border="0" >
+  <tr>
+    <td colspan="2" valign="top" width="700px">
+
+      <h3>  <%=@user.login  %> </h3>
+
+      
+      
+      <div style="width:600px">
+        <div style="float:left;clear:right;"><%= image_tag show_avatar, :height =>'80px', :width=>'80px',:class=>'profile-img'  %></div>
+      <div style="float:right;" class="stat_bubble">Score<div class="stat_bubble_content"><%=memberscore(@user)  %></div></div>
+    &nbsp;
+        <div style="float:right;background-color:#407D48;" class="stat_bubble">Rank<div class="stat_bubble_content"><%=memberrank(@user)%> </div></div>
+       
+      </div>
+      <br>
+
+      
+      </td>
+    <td rowspan="4" width="300px;" align="center"> <div id="ads"><script type="text/javascript"><!--
+      google_ad_client = "pub-5334247008422553";
+      /* 120x600, created 5/31/09 */
+      google_ad_slot = "8378903526";
+      google_ad_width = 120;
+      google_ad_height = 600;
+      //-->
+        </script>
+        <script type="text/javascript"
+                src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+        </script></div></td>
+  </tr> <%if @pro.about?%><tr valign="top" ><td><br><br><div style="width:600px">
+  <h3>Description</h3>
+  <br>
+  <%=@pro.about || "No description yet" %><br><br></div></td></tr><%end%>
+  <tr valign="top" height="340px">
+    <td><br>
+    <h3>Recent Activity</h3> <br>
+      <%
+      if @questions.size != 0
+      for question in @questions
+        if question != nil%>
+          <%  #Display Questions
+          if question.parentid == 0
+          %>
+      <div class="post"><p ><span class="headline"> <%= link_to question.headline, question%></span><br>
+              <span class="details"> Posted a Question in <%if(question.topic_id)%>
+                  <%=Topic.find(question.topic_id).title %>
+                <%end%> <%= distance_of_time_in_words_to_now(question.created_at, include_seconds = false) %> ago</span>
+            </p></div>
+            <%  #Display Answers
+          else
+         @newparent = find_parent(question.parentid)
+         if @newparent != nil
+         	@newtopic = find_topic(@newparent.topic_id)
+         end
+          %>
+           <div  class="post"> <p>
+            <span class="headline">  <%= link_to 'Re: ' + @newparent.headline, @newparent%></span><br>
+              <span class="details"> Posted an Answer in  <%if @newtopic != nil %><%=@topic.title %><%end%> <%= distance_of_time_in_words_to_now(question.created_at, include_seconds = false) %> ago</span> </p>
+          </div><%end%>
+        <%else%>
+          
+        <%
+        end
+      end
+      else
+    %>
+          There hasn't been any recent activity.
+          <%end%>
+    </td>
+
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+
+  </tr>
+</table>

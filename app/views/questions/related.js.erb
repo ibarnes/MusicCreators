@@ -1,0 +1,10 @@
+$(document).ready(function() {
+  $('#question_headline').blur(function() {
+    //remove all the class add the messagebox classes and start fading
+    $('#related').text('Checking...').fadeIn("slow");
+    //check the username exists or not from ajax
+   // $('#related').html("<%= render :partial=>'headline',:locals=>{:text=>'"+$("#question_headline").val() +"'}%>");
+   $('#related').append("<%= escape_javascript(render :partial => 'headline', :locals => { :text => '"+$('#question_headline').val()+"'}) %>")
+   // $.post('/find/related',{  });
+});
+});

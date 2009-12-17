@@ -1,0 +1,18 @@
+
+<ul class="allusers">
+<% @questions = Question.find_by_sql ['Select * from questions where match(headline,body) against(?) and parentid=0',text] %>
+  <li class="thisuser">
+    <%if @questions.size > 0%>
+    <table width="500px"><tr><td><strong>Similar Questions:</strong></td></tr>
+<% for question in @questions do %>
+      <tr><td><%=link_to question.headline, question %></td></tr><% end %></table>
+
+    <%else%>
+    No similar questions found.
+    <%  end
+text =''
+%>
+  
+</li>
+
+</ul>  
