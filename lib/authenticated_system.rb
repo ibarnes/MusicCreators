@@ -5,6 +5,10 @@ module AuthenticatedSystem
     def logged_in?
       current_user != :false
     end
+
+    def logged_in_paid?
+      current_user != :false
+    end
     
     # Accesses the current user from the session.
     def current_user

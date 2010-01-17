@@ -1,35 +1,58 @@
-<br>
-<h1>To join Beatcreators, sign up below… it’s free!</h1>
+<%= error_messages_for :user %><br>
+<h1>Create a BeatCreators account:</h1>
+<div id="beatcontainer">
+  <div id="beatform" >
+    <% form_for :user do |f| -%>
 
-<% form_for :user do |f| -%>
-  
-  <div class="fieldgrp">
-    <label for="login"><abbr title="This field is required.">*</abbr>UserName</label>
-    <div class="field">
-      <%= f.text_field :login, :class => 'longfield' %>
-      Please no spaces, periods or dashes.
-    </div>
-  </div>
-  <div class="fieldgrp">
-    <label for="email"><abbr title="This field is required.">*</abbr>Email</label>
-    <div class="field">
-      <%= f.text_field :email, :class => 'longfield' %>
-    </div>
-  </div>
-  <div class="fieldgrp">
-    <label for="password"><abbr title="This field is required.">*</abbr>Password</label>
-    <div class="field">
-      <%= f.password_field :password, :class => 'longfield' %><br><span class="formhelp">6 or more characters</span>
-    </div>
-  </div>
-  <div class="fieldgrp">
-    <label for="password_confirmation"><abbr title="This field is required.">*</abbr>Confirm Password</label>
-    <div class="field">
-      <%= f.password_field :password_confirmation, :class => 'longfield'%>
-    </div>
-  </div>
-  
+      <div class="group">
+        <label for="login">
+          Username</label><br>
 
-  <%= error_messages_for :user %>
-  <p><%= submit_tag 'Sign up' %></p>
-<% end -%>
+        <%= f.text_field :login, :class => 'longfield' %><br>
+        <span class="formhelp">Please no spaces, periods or dashes.</span><br>
+      </div>
+
+      <div class="group">
+        <label for="email">Email</label><br>
+
+        <%= f.text_field :email, :class => 'longfield' %><br>
+
+      </div>
+
+      <div class="group">
+        <label for="password">Password</label><br>
+
+        <%= f.password_field :password, :class => 'longfield' %><br><span class="formhelp">Must be six or more characters</span><br>
+      </div>
+
+      <div class="group">
+        <label for="password_confirmation">Confirm Password</label><br>
+
+        <%= f.password_field :password_confirmation, :class => 'longfield'%><br>
+      </div>
+
+      
+     
+   
+
+    <p><%= submit_tag 'Sign up', :class=>'submit' %></p>
+     </div>
+  <% end -%>
+       <div id="beatright">
+          <%@questions = Question.find(:all, :limit=>3,:order=>'created_at desc',:conditions=>['parentid = ?', 0])%>
+         <h1>Latest Questions</h1>
+
+         <%@questions.each do |question|%>
+
+          <div style="border-bottom:1px #e7e7e7 solid;padding:10px;"><%=link_to question.headline,question_path(question)%></div>
+         <%end%>
+          <br><br>
+       <%@post = Post.find(:all,:order=>'created_at desc', :limit=>3)%><h1>Latest Sound Kits</h1>
+
+         <%@post.each do |post|%>
+         
+          <div style="border-bottom:1px #e7e7e7 solid;padding:10px;"><%=link_to post.title,post_path(post)%></div>
+         <%end%>
+      </div>
+      <div class="clear"></div>
+</div>

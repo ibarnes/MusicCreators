@@ -10,6 +10,16 @@ class Question < ActiveRecord::Base
   @per_page = 25
 
 
+   HUMANIZED_ATTRIBUTES = {
+    :headline => "Question",
+    :body =>'Details'
+  }
+
+  def self.human_attribute_name(attr)
+    HUMANIZED_ATTRIBUTES[attr.to_sym] || super
+  end
+
+  
   def self.findanswers(questionid)
     @sql ="select count(rating) rating,questionid,parentid,questions.id id,questions.created_at created_at,body,"+
       "questions.user_id,questions.headline,questions.correct_flag from ratings right join questions on " +
@@ -36,5 +46,15 @@ class Question < ActiveRecord::Base
     @parentsql = 'select * from questions where id=' + id.to_s
     Question.find_by_sql(@parentsql)
   end
- 
+
+  def recent(options = {})
+    limit = options[:limit] || 15
+
+    returning([]) do |collection|
+      collection << Post.recent.all(:limit => limit)
+      collection << Questions.recent.all(:limit => limit)
+      collection << User.recent.all(:limit => limit)
+    end.flatten.sort_by(&:updated_at).reverse.slice(0, limit)
+  end
+
 end

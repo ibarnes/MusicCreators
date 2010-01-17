@@ -21,16 +21,24 @@ class AccountController < ApplicationController
       if Profile.exists?(["user_id =?",current_user.id])
         @profile = Profile.new(:user_id => current_user.id)
       	@profile.save
+        if current_user.paid == 1
       	redirect_to(myquestions_path(current_user.login) )
+        else
+          redirect_to signup_path
+        end
       else
         @profile = Profile.new(:user_id => current_user.id)
       	@profile.save
+        if current_user.paid == 1
         redirect_to(myquestions_path(current_user.login) )
+         else
+          redirect_to signup_path
+        end
       end
       
      
 
-      flash[:notice] = "Logged in successfully"
+
     else
       @notice = "Log in unsuccessful because of the username/password you entered! Try again."
     end
@@ -59,9 +67,10 @@ class AccountController < ApplicationController
     @user.save!
     UserMailer.deliver_new_member(@user)
     self.current_user = @user
-    redirect_to(editprofile_path(current_user.login))
     
-    rescue ActiveRecord::RecordInvalid
+    redirect_to signup_path
+    
+  rescue ActiveRecord::RecordInvalid
     render :action => 'signup'
   end
   
@@ -97,11 +106,11 @@ class AccountController < ApplicationController
         redirect_to(editprofile_path(current_user.login)) 
       rescue ActiveRecord::RecordInvalid => e
         flash[:error] = "Couldn't change your password: #{e}"
-         redirect_to(mypassword_path)
+        redirect_to(mypassword_path)
       end
     else
       flash[:notice] = "Couldn't change your password: is that really your current password?"
-       redirect_to(mypassword_path(current_user))
+      redirect_to(mypassword_path(current_user))
     end
   end
 
@@ -112,28 +121,28 @@ class AccountController < ApplicationController
     if @user != nil
 	    if(params[:password] != nil || params[:password_confirmation] != nil )
 	      if (params[:password] == params[:password_confirmation] )
-	       # if !@user.nil?
-	       #   self.current_user = User.authenticate(@user.login, params[:password])
-		#end
-		@user.password =params[:password]
-		@user.password_confirmation = params[:password_confirmation]
-		begin
-		  if  @user.save
-		    self.current_user = User.authenticate(@user.login, params[:password])
-		    @message = 'You have successfully changed your password. Now contribute to the site by asking and answering questions.'
-		    redirect_back_or_default(editprofile_path(@user.login))
-		  else
-		    @message = 'Not your password.'
-		  end
-		rescue ActiveRecord::RecordInvalid => e
-		  flash[:error] = "Couldn't change your password: #{e}"
-		end
+          # if !@user.nil?
+          #   self.current_user = User.authenticate(@user.login, params[:password])
+          #end
+          @user.password =params[:password]
+          @user.password_confirmation = params[:password_confirmation]
+          begin
+            if  @user.save
+              self.current_user = User.authenticate(@user.login, params[:password])
+              @message = 'You have successfully changed your password. Now contribute to the site by asking and answering questions.'
+              redirect_back_or_default(editprofile_path(@user.login))
+            else
+              @message = 'Not your password.'
+            end
+          rescue ActiveRecord::RecordInvalid => e
+            flash[:error] = "Couldn't change your password: #{e}"
+          end
 
 	      else
-		@message = 'Password mismatch'
+          @message = 'Password mismatch'
 	      end
 	    else
-	     @message =  'Please enter your new password!'
+        @message =  'Please enter your new password!'
 	    end
 	    #redirect_back_or_default(:controller => '/questions', :action => 'index')
 	    #  rescue
@@ -142,9 +151,9 @@ class AccountController < ApplicationController
 	    # redirect_back_or_default(:controller => '/home', :action => 'index')
 	  end
 	  
-    else
-	flash[:notice] = 'That reset code does not exist'
+  else
+    flash[:notice] = 'That reset code does not exist'
 	
-    end
+  end
 
 end

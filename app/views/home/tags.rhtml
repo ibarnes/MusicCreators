@@ -13,7 +13,7 @@
      <tr>
      <%end%>
      <td width="100px;" id="tags">
-    <span> <%= link_to tag.name, { :action => 'tag', :id => tag.name }, :class => cloud %> x <%=tag.count%></span></td>
+    <span> <%= link_to tag.name, { :action => 'tag', :id => tag.name }%> x <%=tag.count%></span></td>
     <%if @i == 6 %>
     	</tr>
     <% 

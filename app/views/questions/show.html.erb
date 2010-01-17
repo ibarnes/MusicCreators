@@ -40,7 +40,11 @@
     </td>
   </tr>
   <tr>
-    <td >Posted <%=h distance_of_time_in_words_to_now(@question.created_at, include_seconds = false) %> ago in <%=Topic.find_by_id(@question.topic_id).title%> <%if @question.tag_list.size > 0%> <div id="tags"><span><%=@question.tag_list%></span></div><%end%></td>
+    <td >Posted <%=h distance_of_time_in_words_to_now(@question.created_at, include_seconds = false) %> ago in <%=Topic.find_by_id(@question.topic_id).title%>
+<%if @question.tag_list.size > 0%> 
+      <div id="tags" ><p style="width:20px;"><span ><%=@question.tag_list.to_s[0..59]%></span></p></div>
+<%end%>
+    </td>
     <td > <div id="question_buttons">
         <% if @question.user_id == current_user.id %>
           <%= link_to 'Edit', edit_question_path(@question) %>

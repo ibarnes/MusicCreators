@@ -12,7 +12,6 @@ class HomeController < ApplicationController
    
     @i = 0
     
-
     @questions = Question.paginate @allquestions, :page => params[:page],:order => 'updated_at desc', :per_page => 25
 
     @users = User.find(:all, :order => "created_at DESC", :limit => 6)
@@ -24,13 +23,11 @@ class HomeController < ApplicationController
   
   
   def recent
+   
     @users = User.find(:all, :order => "created_at DESC", :limit => 6)
-
     @questions = Question.paginate :page => params[:page],:order => 'created_at desc', :per_page => 50
     @rssquestions = Question.find(:all,:order => 'created_at DESC')
     @topics = Topic.find(:all, :order =>"title asc")
-    
-    
   end
   
   def top

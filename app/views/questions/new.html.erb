@@ -4,50 +4,59 @@ function openWin2() {
 }
 </script>
 
-
-<div id="help-sidebar">
-  <div id="help"><br><strong>Quick Tips</strong><br><br>
-  <%= image_tag 'bullet.gif' %>Please select a topic area for your question.<br>
-  <%= image_tag 'bullet.gif' %>Use the details box to describe your question.
-   <br><br></div></div><br><br>
-<%
-   if logged_in?
-    redirect_to(:action => 'signup') unless logged_in? || User.count > 0
-   end
-%>
 <h1>Ask A Question</h1>
-<table width="640px"><tr><td><% form_for :question, @question, :url => { :action => "create" } do |f| -%>
-  <%= f.error_messages %>
-  <div class="fieldgrp">
-    <label for="topic_id"><abbr title="This field is required.">*</abbr>Select a topic:</label>
-    <div class="field">
-      <%= collection_select(:question, :topic_id, @topics, :id, :title) %>
-    </div>
-  </div>
-  <div class="fieldgrp">
-    <label for="title"><abbr title="This field is required.">*</abbr>Question:</label>
-    <div class="field"><a href="javascript:openWin2()" onMouseOver="self.status='Examples of questions'; return true;">See examples</a>
-       <%= f.text_field :headline, :style => 'width:400px;' %>
-      <div id="related"></div>
-      <%# text_field_with_auto_complete 'question', 'headline',{}, :skip_style => false  %>
-      
-    </div>
-  </div>
-  <div class="fieldgrp">
-    <label for="about">Details(optional):</label>
-    <div class="field">
-      <%= f.text_area :body, :class => 'textarea'%>
-    </div>
-  </div>
-<div class="fieldgrp">
-    <label for="about">Tags:</label>
-    <div class="field">
-      <%= f.text_field :tag_list %><br>
-      (Please use commas to seperate the tags)
+<div id="beatcontainer">
+  
+  <div id="beatform">
+    
+    <% form_for @question, :url => { :action => "create" } do |f| -%>
+    <%= f.error_messages %><br>
+     <div class="group">
+        <label for="login">Topic</label><br>
+        <%= collection_select(:question, :topic_id, @topics, :id, :title, :class => 'longfield', :include_blank => 'Select a topic...') %><br>
       </div>
-  </div>
-     
-  <%= hidden_field_tag 'question[user_id]', current_user.id, :id=>'question_body'  %>
+     <div class="group">
+        <label for="login">Tags</label>
+
+        <%# form.label(:tag_list, "Tag to categorize <strong>(separate by commas)</strong>") %><br/>
+        <%= text_field_with_auto_complete :question, :tag_list,
+        { :size => 40, :style => "width: 350px;"},
+        { :url => tag_suggestions_questions_path(:format => :js),:param_name => 'tag', :method => :get, :tokens => ',' } %>
+
+        <%# f.text_field :tag_list %><br>
+        <span class="formhelp">Please use commas to seperate the tags</span><br>
+      </div>
+     <div class="group">
+        <label for="login">Question </label> <br>
+
+        <%= f.text_field :headline %><br>
+        <span class="formhelp">Please no periods or dashes.</span><br>
+      </div>
+     <div class="group">
+        <label for="login">Details</label><br>
+
+        <%= f.text_area :body, :size=>'44x10'%><br>
+        
+      </div>
+   
+    <br>
+     <%= f.hidden_field :question, :name=>'user_id', :value=>current_user.id  %>
 
   <%= f.submit "Ask Your Question", :style => 'text-align:center;' %>
-<% end %></td></tr></table><br><br><br>
+    <%end%>
+  </div>
+  <div id="beatright">
+    <h1>Top Questions</h1>
+    <%Question.top_questions[0..2].each do |question|%>
+
+    <div style="border-bottom:1px #e7e7e7 solid;padding:10px;"><%=link_to question.headline,question_path(question)%></div>
+    <%end%>
+    <br><br>
+    <h1>New Sound Kits</h1>
+    <%Post.find(:all, :limit=>3, :order=>'created_at desc').each do |post|%>
+    <div style="border-bottom:1px #e7e7e7 solid;padding:10px;"><%=link_to post.title,post_path(post)%></div>
+
+    <%end%>
+  <div class="clear"></div>
+  
+</div>

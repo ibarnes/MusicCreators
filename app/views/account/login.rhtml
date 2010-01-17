@@ -1,33 +1,64 @@
-<center>
-  <%if @notice != nil%>
-  <div id="info" class="notice"><div id="hide_details_link" style="display:inline;">
-  <%=@notice%>
-</div></div><%end%>
-  <div id="login">
-    <div id="loginform">
-      <% if @incorrect == true %>
+ <% if @incorrect == true %>
       <div class="error">Username or password is incorrect!</div>
-      <%end%> 
-      <% form_tag do -%>
+      <%end%>
+        <%if @notice != nil%>
+      <div id="info" class="notice" style="width:622px;margin:0 auto;"><div  id="hide_details_link" style="display:inline;">
+  <%=@notice%>
+  </div></div>
+<%end%><br>
+<div  style="margin:0 auto;padding:20px;height:200px;width:600px;border:1px #ccc solid;background:#fbfbfb;">
+ 
+
+  <div style="float:left;">
+    <% form_tag do -%>
+    <span style="font-size:16px;">Login</span><br>
+    <%= text_field_tag 'login' , nil, :size=>30%><br><br>
+    <span style="font-size:16px;">Password</span><br>
+    <%= password_field_tag 'password' , nil, :size=>30 %><br><br>
+    <%= submit_tag 'Log in' %>
+    <%=link_to 'Forgot Password?', forgot_password_path%>
+    <%end%>
+
+  </div>
+  <div style="float:right;">
+     <p style="text-align: center; font-size: 12px;">
+       <span style="font-size: 18px;font-weight:bold;">Don't have an account yet!</span><br><br>
+       BeatCreators is easy, sign-up now <br>to get your questions answered and new sound kits.
+      </p>
+      <p align="center"><%= link_to image_tag("join.png", :border=>0), :controller => 'account', :action => 'signup' %></p>
+  </div>
+
+  <div class="clear"></div>
+</div>
+
+
+
+
+ <!-- <div id="login">
+    <div id="loginform">
+      <% #if @incorrect == true %>
+      <div class="error">Username or password is incorrect!</div>
+      <%#end%>
+        <%#if @notice != nil%>
+  <div id="info" class="notice"><div id="hide_details_link" style="display:inline;">
+  <%#@notice%>
+  </div></div>
+<%#end%>
       <p><h1 align="left">Login</h1>
         <div align="left"><label for="login">Username</label></div>
-        <%= text_field_tag 'login' %>
+        
         </p>
         <p><div align="left"><label for="password">Password</label></div>
 
-        <%= password_field_tag 'password' %></p>
-      </div>
-      <!-- Uncomment this if you want this functionality-->
+        </p>
+      </div>-->
+      <!-- Uncomment this if you want this functionality
       <div align="left" style="padding:0 30px 0 50px;">   <p><label for="remember_me">Remember me:</label>
-        <%= check_box_tag 'remember_me' %></p>
+        <%# check_box_tag 'remember_me' %></p>
         <br>
-      <%= submit_tag 'Log in' %><br><br><%=link_to 'Forgot Password?', forgot_password_path%></div>
+      </div>
 
-    <% end -%> <div id="signup">
-      <p style="text-align: center; font-size: 16px; font-weight: 700;">Don't have an account yet!
-      </p><p align="center"><%= link_to image_tag("join.png", :border=>0), :controller => 'account', :action => 'signup' %></p>
-    </div> </div>
+    <%# end -%> <div id="signup">
+     
+    </div> </div> -->
   
-
-</center>
-

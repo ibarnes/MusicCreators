@@ -5,15 +5,15 @@ class QuestionsController < ApplicationController
   # GET /questions
   # GET /questions.xml
   def index
-    #@questions = Question.paginate  :page => params[:page], :order => 'created_at DESC'
-    #respond_to do |format|
-     # format.html # index.html.erb
-     # format.xml  { render :xml => @questions }
-    #end
+   
     @questions = Question.find(:all, :order => 'created_at DESC', :conditions=>'parentid = 0')
   
   end
 
+    def tag_suggestions
+      @tags = Tag.find(:all, :conditions => ["name LIKE ?", "#{params[:tag]}%"])
+      render :layout => false
+    end
 
 
   # GET /questions/1
@@ -364,11 +364,7 @@ class QuestionsController < ApplicationController
 
 
 
-  def auto_complete_for_question_tags()
-    title = params[:question][:tags]
-    @questions = Question.find(:all , :conditions=>"headline like '%"+title.downcase+"%'")
-    render :partial => 'headline'
-	end
+  
 
 
   def related_question_headline

@@ -18,7 +18,7 @@
     @user = User.find(leader.userid)
   %>
   <tr bgcolor="<%= cycle("#F0F0F0", "#FFFFFF")%>">
-    <td class="rank"><%if params[:page] == nil || params[:page] == '1'%><%=ordinalize index + 1%><%else%><%=ordinalize index + 26%><%end%></td>
+    <td class="rank"><%=ordinalize memberrank(@user)%></td>
     <td> <div id="links"><%#link_to @user.login, showuser_path(:user => @user.login) %></div>
     <div id="img"><%=link_to  image_tag(show_avatar,:width=>'50px',:height=>'50px',:title=> @user.login), showuser_path(:user => @user.login)  %></div>
    </td>

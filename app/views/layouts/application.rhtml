@@ -13,69 +13,18 @@
       <%#= javascript_include_tag 'application' %> 
    
     <%= stylesheet_link_tag 'styles' %>
+    <%= stylesheet_link_tag 'newstyles' %>
      <%= auto_discovery_link_tag(:rss,formatted_questions_url(:rss)) %>
   <!--[if IE]>
 	<%=stylesheet_link_tag 'ie_styles' %>
 <![endif]-->
   </head>
   <body bgcolor="black">
-    <div id="header" >
-      <div id="header-inner">  <%if logged_in?%>
-      <div style="float: right;clear:both;text-align: right;width: 300px;height:0px;color: #FFF;font-size: 12px;">
-
-      <%= link_to current_user.login, myquestions_path(current_user.login), :style=>'color:#fff;text-decoration:underline;'  %>
-          <span style="opacity: 0.6;">|</span> Rank: <%=ordinalize memberrank(current_user)%> <span style="opacity: 0.6;">|</span> Score: <%=memberscore(current_user)  %>
-</div>  <%end%>
-        <div id="nav">
-          <ul>
-            <li>
-              <%= link_to "Ask A Question", new_question_path,  :style=>'background: url(/images/new_question.png) repeat-x;color:#FFFFFF;width:100px;text-align:center;' %>
-
-            </li>
-
-            
-             
-             <%if logged_in?%>
-              <li> <%= link_to "Logout", :controller => 'account', :action => 'logout' %></li>
-            <%else%>
-              <li> <%= link_to "Login", :controller => 'account', :action => 'login' %></li>
-              <li>
-                <%= link_to "Join", :controller => 'account', :action => 'signup' %>
-              </li>
-
-            <%end%> <li> <%= link_to "FAQs", :controller => 'home', :action=> 'faq'  %></li>
-            <li>
-              <%= link_to "Blog", 'http://blog.beatcreators.com' %>
-            </li>
-          </ul>
-        </div>
-        <%= link_to image_tag('logo.png', :alt=>'BeatCreators: Learn about music'), '/' %>
-       
-        <!--  <div align="right"><%if request.path_parameters[:controller] != 'account'%><%end%></div>-->
-      </div> <div id="navigation_background">
-          <div id="navigation">
-            <div class="bar">
-              <ul>
-                <li><%= link_to "Most Active", :controller => 'home', :action => 'index' %> </li>
-                
-                <li> <%= link_to "Most Recent", :controller => 'home', :action => 'recent' %> </li>
-                <li> <%= link_to "Top Questions", :controller => 'home', :action => 'top' %> </li>
-                <li> <%= link_to "Tags", :controller => 'home', :action => 'tags' %> </li>
-                <li> <%= link_to "Leaderboard", :controller => 'home', :action => 'leaders' %> </li>
-                <!--<li> <a href="#">Members</a> </li>-->
-              </ul>
-            </div>
-            <div class="search">
-              <form method="get" action="/search">
-                <input id="question" name="question" <%if params[:question] == nil%>value="Search for a question" <%else%>value="<%=params[:question]%>"<%end%> onfocus="this.value = ''" type="text">
-              </form>
-            </div>
-            <div class="clearfix"></div>
-          </div>
-        </div>
-    </div>
+   <%=render :partial=>'layouts/navigation' %>
 
     <div id="main"><div id="main-inner">
+        <%=render :partial=>'layouts/topbanner'%>
+
         <br><br>
 
         <%= flash[:notice] %>
@@ -83,21 +32,7 @@
         <br><br>
       </div>
     </div>
-    <div id="footer">
-      <ul>
-
-        <li class="first"><a href="mailto:support@beatcreators.com" target="_blank">Contact Us</a></li>
-	<li ><a href="mailto:webmaster@beatcreators.com" target="_blank">Advertise</a></li>
-        <li><a href="http://blog.beatcreators.com/about">About Us</a></li>
-        <li><%= link_to  "Ask a Question",new_question_path %></li>
-        <li><a href="http://blog.beatcreators.com">Blog</a></li>
-      
-        <li><a href="http://www.youtube.com/watch?v=FeoF8HqBdUY&feature=player_embedded">How BeatCreators Works?</a></li>
-        <li> ©2009  Niveo Solutions LLC. All rights reserved.</li>
-      </ul>
-
-    </div>
-    
+   <%=render :partial=>'layouts/footer'%>
    
   </body>
 </html>

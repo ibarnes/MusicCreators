@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :questions # :path_prefix => ":user"
+  map.resources :questions, :collection => { :tag_suggestions => :get } # :path_prefix => ":user"
 
   map.resources :sessions
 
@@ -9,7 +9,17 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :discussion
 
- 
+  map.resources :posts
+
+  map.resources :post_comments
+  
+  map.signup 'signup', :controller=>'posts', :action=>'signup'
+
+  map.success 'success', :controller=>'posts', :action=>'success'
+
+  map.connect 'posts/:id/:style/:basename.:format', :controller => 'posts', :action => 'download', :conditions => { :method => :get }
+  
+
 
   # The priority is based upon order of creation: first created -> highest priority.
 

@@ -9,35 +9,7 @@
         <%= render :partial=>'allquestions', :locals=>{:questions=>@questions} %>
       </td>
       <td valign="top" style="padding-left:30px;">
-       <!-- <div id="intro-text">
-          Welcome!
-          </div>
-          <br>-->
-      <div id="members-online">
-        <div style="font-size:14px;height:60px;" align="left"><h1>Statistics</h1><span style="font-size:large;color:#3398cb;"><%=  Question.find(:all, :conditions =>'parentid = 0').size %></span> total questions.<br><span style="font-size:large;color:green;"><%=User.find(:all).size%></span> total members.<br><span style="font-size:large;color:black;"><%=  Question.find(:all, :conditions =>'parentid != 0').size %></span> total answers. <br><br><br></div>
-        <br><br><br><br><h1>Topics</h1> <table><%for topic in @topics%><tr><td><%=link_to topic.title, topic_path(topic.title.gsub(/[ ]/, '-'))%></td></tr><%end%></table><br><br><!--<h1>Most Active</h1>
-          <table  border="0">
-          <%for user in @users%>
-            <% @user = user %>
-            
-    <tr>
-      <td ><div class="userImage" style="float:left;clear:left;"><%= image_tag show_avatar, :height =>'40px', :width=>'40px',:class=>'small-profile-img'   %> </div></td>
-      <td ><div style="float:left;margin:5px;" ><strong><%=link_to user.login, showuser_path(:user => user.login) %></strong><br>Joined <%= distance_of_time_in_words_to_now(@user.created_at, include_seconds = false) %> ago</div>
-      </td>
-    </tr>
- 
-                <%end%> </table> --><br> <br><h1>Ads</h1><div ><script type="text/javascript"><!--
-google_ad_client = "pub-5334247008422553";
-/* 120x240, created 7/19/09 */
-google_ad_slot = "0574282203";
-google_ad_width = 120;
-google_ad_height = 240;
-//-->
-</script>
-<script type="text/javascript"
-src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script></div>
-      </div>
+        <%= render :partial=>'right' %>
       </td>
     </tr><tr><td colspan="3"><br>
     <br><br></td></tr>

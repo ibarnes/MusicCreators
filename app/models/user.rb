@@ -22,12 +22,21 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :notifications
   has_one :avatar
   has_one :profile
+  has_many :comments
+  has_many :postcomments
   has_many :questions do
   def recent
     find(:all, :order => 'created_at desc', :limit => 10)
     end
   end
-  
+
+HUMANIZED_ATTRIBUTES = {
+    :login => "Username"
+  }
+
+  def self.human_attribute_name(attr)
+    HUMANIZED_ATTRIBUTES[attr.to_sym] || super
+  end
  
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   def self.authenticate(login, password)
