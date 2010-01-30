@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :answers
+
   map.resources :questions, :collection => { :tag_suggestions => :get } # :path_prefix => ":user"
 
   map.resources :sessions
@@ -73,7 +75,7 @@ ActionController::Routing::Routes.draw do |map|
   map.top '/top', :controller=> 'home', :action=>'top'
   map.leaders '/leaders', :controller=> 'home', :action=>'leaders'
   map.recent '/recent', :controller=> 'home', :action=>'recent'
-  map.tags '/tags/', :controller => 'home', :action => 'tags'
+  map.tags '/tags/:char', :controller => 'home', :action => 'tags', :char => 'A'
   map.tag '/tag/:tag', :controller=> 'home', :action=>'showtag'
   map.faq '/faq', :controller=> 'home', :action=>'faq'
   map.showuser "profile/:user", :controller => 'profiles', :action => 'index'

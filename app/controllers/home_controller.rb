@@ -54,7 +54,18 @@ class HomeController < ApplicationController
     @topics = Topic.find(:all, :order =>"title asc")
   end
 
+  def tags
+    @letter = params[:char]
+    if params[:char]
+      @tags = Tag.find(:all, :group=>'name', :conditions=>['name like ?',params[:char] + '%'])
+    else
+      @tags = Tag.find(:all, :group=>'name')
+    end
+
+  end
+
   def tag
+    @alphabet = ('A'..'Z').to_a
     @size = 0
     @mail_user = get_users_to_be_notified(1)
     if params[:id] != nil

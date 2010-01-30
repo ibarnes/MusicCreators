@@ -9,7 +9,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100111231053) do
+ActiveRecord::Schema.define(:version => 20100123005127) do
+
+  create_table "answers", :force => true do |t|
+    t.text     "body"
+    t.string   "headline"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "avatars", :force => true do |t|
     t.integer  "user_id"
@@ -80,6 +88,8 @@ ActiveRecord::Schema.define(:version => 20100111231053) do
     t.string   "kit_content_type"
     t.integer  "kit_file_size"
     t.datetime "kit_updated_at"
+    t.integer  "price"
+    t.string   "buttoncode"
   end
 
   create_table "profiles", :force => true do |t|

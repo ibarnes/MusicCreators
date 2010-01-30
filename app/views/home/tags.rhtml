@@ -1,27 +1,30 @@
-<%#
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
-%>
-<h1>Tags</h1><br><br>
 
+<h1>Tags</h1><br><br>
+<%('A'..'Z').to_a.each do |l|%>
+  <%=link_to l , tags_path(:char => l), :style=>'font-size:20px;' %>
+ | 
+
+<%end%>
+  <br><br>
 <table border='0' width="100%">
-	<%
-	@i = 1
-	tag_cloud Question.tag_counts.sort { |x, y| x.name <=> y.name }, %w(cloud4) do |tag, cloud| 
-	%>
-     <% if @i == 1 %>
-     <tr>
-     <%end%>
-     <td width="100px;" id="tags">
-    <span> <%= link_to tag.name, { :action => 'tag', :id => tag.name }%> x <%=tag.count%></span></td>
-    <%if @i == 6 %>
-    	</tr>
-    <% 
-    	@i = 0 
-      end
-    %>
-  <% 
-  @i += 1
-  end 
+  <%
+  @i = 1
+  @tags.each do |tag|
+  #tag_cloud Question.tag_counts.sort { |x, y| x.name <=> y.name }, %w(cloud4) do |tag, cloud|
   %>
+    <% if @i == 1 %>
+      <tr>
+      <%end%>
+      <td width="100px;" id="tags">
+        <span> <%= link_to tag.name, { :action => 'tag', :id => tag.name }%> x <%=Tag.find_all_by_name(tag.name).size%></span></td>
+      <%if @i == 5 %>
+      </tr>
+      <%
+      @i = 0
+    end
+  %>
+    <%
+    @i += 1
+  end
+%>
 </table>
